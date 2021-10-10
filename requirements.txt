@@ -2,10 +2,14 @@ anyio==3.3.2
 asgiref==3.4.1
 click==8.0.2
 fastapi==0.70.0
+flake8==3.9.2
 h11==0.12.0
 httptools==0.2.0
 idna==3.2
+mccabe==0.6.1
+pycodestyle==2.7.0
 pydantic==1.8.2
+pyflakes==2.3.1
 python-dotenv==0.19.1
 PyYAML==5.4.1
 sniffio==1.2.0
