@@ -1,13 +1,14 @@
-from typing import List
+from datetime import datetime, time, timedelta, timezone
+from typing import List, Optional
 
-from fastapi import FastAPI, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Body
 from fastapi.responses import HTMLResponse
 from fastapi.testclient import TestClient
 
 
 app = FastAPI()
 
-# client
+#client
 
 html = """
 <!DOCTYPE html>
@@ -53,8 +54,9 @@ html = """
 </html>
 """
 
-# server
+#server
 
+current_date = datetime
 
 class ConnectionManager:
     def __init__(self):
@@ -79,7 +81,6 @@ manager = ConnectionManager()
 
 user_name = "Kuba"
 
-
 @app.get("/")
 async def get():
     return HTMLResponse(html)
@@ -90,16 +91,18 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
     print('Connecting...')
     await manager.connect(websocket)
     try:
-        while True:
+        while True: 
             data = await websocket.receive_text()
-            await manager.send_personal_message(f"Text: {data}, \
-            added by: {user_name}", websocket)
+            await manager.send_personal_message(f"Text: {data}, added by: {user_name}", websocket)
             await manager.broadcast(f"Client #{client_id} says: {data}")
 
     except WebSocketDisconnect:
 
         manager.disconnect(websocket)
+
+
         await manager.broadcast(f"Client #{client_id} disconnected!")
+        
 
 
 def test_websocket():
