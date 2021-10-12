@@ -1,8 +1,9 @@
 from typing import List
-
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse
-from fastapi.testclient import TestClient
+from clickhouse_driver import Client
+#from fastapi.testclient import TestClient
+
 
 
 app = FastAPI()
@@ -79,6 +80,13 @@ manager = ConnectionManager()
 
 user_name = "Kuba"
 
+clickhouseClient = Client(database="eventlog", user="default", password="Ya999888777", host="localhost")
+print(clickhouseClient.execute('SHOW DATABASES'))
+clickhouseClient.execute('USE eventlog')
+
+print(clickhouseClient.execute('SELECT * FROM eventlog'))
+
+
 
 @app.get("/")
 async def get():
@@ -101,8 +109,11 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
         await manager.broadcast(f"Client #{client_id} disconnected!")
 
 
-def test_websocket():
-    client = TestClient(app)
-    with client.websocket_connect("/ws") as websocket:
-        data = websocket.receive_json()
-        assert data == {"msg": "Hello WebSocket"}
+#def test_websocket():
+ #   client = TestClient(app)
+   # with client.websocket_connect("/ws") as websocket:
+     #   data = websocket.receive_json()
+     #   assert data == {"msg": "Hello WebSocket"}
+
+
+print(clickhouseClient.execute('SELECT * FROM eventlog'))
