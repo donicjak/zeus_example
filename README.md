@@ -7,3 +7,4 @@ To Create a database, do following:
 3. In your client, create a database: CREATE DATABASE eventlog;
 4. Make sure you are working with your database with: USE eventlog;
 5. Create a table: CREATE TABLE eventlog ( id UInt64, message String ) ENGINE = MergeTree() PRIMARY KEY id ORDER BY id;
+6. To add a timestamp attribute into a Table do: ALTER TABLE eventlog ADD COLUMN timestamp DateTime;
