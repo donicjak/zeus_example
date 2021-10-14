@@ -6,7 +6,7 @@ from datetime import datetime
 
 def getClient():
     clickhouseClient = Client(database="eventlog", user="default",
-                              password="Ya999888777", host="localhost")
+                              password="", host="localhost")
     return clickhouseClient
 
 
