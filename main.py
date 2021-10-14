@@ -1,20 +1,12 @@
-import pandas as pd
-import time
 import json
 import websocketConnection as wc
 import database_handler as dh
 
-from typing import List
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
 from fastapi.responses import HTMLResponse, JSONResponse
-from clickhouse_driver import Client
-#from fastapi.testclient import TestClient
-from datetime import datetime
 
 app = FastAPI()
-
 # client
-
 html = """
 <!DOCTYPE html>
 <html>
@@ -63,15 +55,14 @@ html = """
 
 manager = wc.ConnectionManager()
 
+
 @app.websocket("/ws/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: int):
-    print('Connecting...')
     await manager.connect(websocket)
     try:
         while True:
             data = await websocket.receive_text()
-            await manager.send_personal_message(f"Text: {data}, \
-                added by: {user_name}", websocket)
+            await manager.send_personal_message(f"Text: {data}", websocket)
             dh.insert_data(data)
             await manager.broadcast(f"Client #{client_id} says: {data}")
 
@@ -79,16 +70,18 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
         manager.disconnect(websocket)
         await manager.broadcast(f"Client #{client_id} disconnected!")
 
+
 @app.get("/")
 async def get():
     return HTMLResponse(html)
+
 
 @app.get("/json")
 async def getJSON():
     jsonData = dh.toJSON()
     jsonObject = json.loads(jsonData)
-    return JSONResponse(content = jsonObject)
+    return JSONResponse(content=jsonObject)
 
-#Data Frame -> toHTML...udelat si vypis na dalsim endpointu
+# Data Frame -> toHTML...udelat si vypis na dalsim endpointu
 
 print(dh.getDataFrame())
