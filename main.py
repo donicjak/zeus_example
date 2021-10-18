@@ -82,4 +82,4 @@ async def getJSON():
     json_object = json.loads(json_data)
     return JSONResponse(content=json_object)
 
-#print(dh.getDataFrame())
+
