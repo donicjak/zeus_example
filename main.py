@@ -57,7 +57,7 @@ manager = wc.ConnectionManager()
 
 
 @app.websocket("/ws/{client_id}")
-async def websocket_endpoint(websocket: WebSocket, client_id: int):
+async def websocket_endpoint(websocket: WebSocket, client_id: int) -> None:
     await manager.connect(websocket)
     try:
         while True:
@@ -72,12 +72,12 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int):
 
 
 @app.get("/")
-async def get():
+async def get() -> HTMLResponse:
     return HTMLResponse(html)
 
 
 @app.get("/json")
-async def getJSON():
+async def getJSON() -> JSONResponse:
     json_data = dh.to_json()
     json_object = json.loads(json_data)
     return JSONResponse(content=json_object)

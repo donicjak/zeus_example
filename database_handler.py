@@ -9,7 +9,7 @@ def get_client() -> Client:
                               password="", host="localhost")
     return clickhouse_client
 
-def insert_data(message: str):
+def insert_data(message: str) -> None:
     clickhouse_client = get_client()
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     clickhouse_client.execute(f"INSERT INTO eventlog VALUES( '{message}', '{now}')")
@@ -27,9 +27,3 @@ def to_json() -> str:
     data_frame = get_data_frame()
     json_data = data_frame.to_json(orient="records")
     return json_data
-
-
-#clickhouse_client = get_client()
-#print(type(clickhouse_client))
-#print(type(get_data_frame()))
-#print(type(to_json()))
