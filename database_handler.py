@@ -4,14 +4,14 @@ from clickhouse_driver import Client
 from datetime import datetime
 
 
-def getClient():
-    clickhouseClient = Client(database="eventlog", user="default",
+def get_client():
+    clickhouse_client = Client(database="eventlog", user="default",
                               password="", host="localhost")
-    return clickhouseClient
+    return clickhouse_client
 
 
-def createDB():
-    clickhouseClient.execute('''
+def create_db():
+    clickhouse_client.execute('''
                             CREATE TABLE eventlog (
                                  id UInt64,
                                  message String,
@@ -24,28 +24,28 @@ def createDB():
 
 def insert_data(message):
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    index = getMaxIndex() + 1
-    clickhouseClient.execute(f"INSERT INTO eventlog VALUES({index}, \
+    index = get_max_index() + 1
+    clickhouse_client.execute(f"INSERT INTO eventlog VALUES({index}, \
                             '{message}', '{now}')")
 
 
-def getMaxIndex():
-    maxIndex = clickhouseClient.execute("SELECT max(id) FROM eventlog")
-    maxIndex = int(maxIndex[0][0])
-    return maxIndex
+def get_max_index():
+    max_index = clickhouse_client.execute("SELECT max(id) FROM eventlog")
+    max_index = int(max_index[0][0])
+    return max_index
 
 
-def getDataFrame():
-    a = clickhouseClient.execute('SELECT * FROM eventlog')
-    df = pd.DataFrame(a)
-    df = df.rename(columns={0: 'index', 1: 'message', 2: 'timestamp'})
-    return df
+def get_data_frame():
+    database_content = clickhouse_client.execute('SELECT * FROM eventlog')
+    data_frame = pd.DataFrame(database_content)
+    data_frame = data_frame.rename(columns={0: 'index', 1: 'message', 2: 'timestamp'})
+    return data_frame
 
 
-def toJSON():
-    df = getDataFrame()
-    jsonData = df.to_json(orient="records")
-    return jsonData
+def to_json():
+    data_frame = get_data_frame()
+    json_data = data_frame.to_json(orient="records")
+    return json_data
 
 
-clickhouseClient = getClient()
+clickhouse_client = get_client()

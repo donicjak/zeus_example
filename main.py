@@ -1,5 +1,5 @@
 import json
-import websocketConnection as wc
+import websocket_connection as wc
 import database_handler as dh
 
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect
@@ -78,10 +78,8 @@ async def get():
 
 @app.get("/json")
 async def getJSON():
-    jsonData = dh.toJSON()
-    jsonObject = json.loads(jsonData)
-    return JSONResponse(content=jsonObject)
+    json_data = dh.to_json()
+    json_object = json.loads(json_data)
+    return JSONResponse(content=json_object)
 
-# Data Frame -> toHTML...udelat si vypis na dalsim endpointu
-
-print(dh.getDataFrame())
+#print(dh.getDataFrame())
