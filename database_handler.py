@@ -1,5 +1,6 @@
 import json
 import time
+import os
 
 from typing import List, Dict, Any
 from clickhouse_driver import Client
@@ -7,8 +8,13 @@ from datetime import datetime
 
 
 def get_client() -> Client:
-    clickhouse_client = Client(database="eventlog", user="default",
-                              password="", host="localhost")
+    database_name = os.getenv("database_name", "eventlog1")
+    user_name = os.getenv("user_name", "default2")
+    host_name = os.getenv("host_name", "localhost3")
+    zkouska = os.getenv("zkouska", "localhost00")
+    print(zkouska)
+    clickhouse_client = Client(database=database_name, user=user_name,
+                              password="", host=host_name)
     return clickhouse_client
 
 def insert_data(message: str, ip_address : int) -> None:
