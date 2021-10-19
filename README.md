@@ -4,19 +4,8 @@ To Create a database, do following:
 
 1. Install a clickhouse client and server with https://clickhouse.com/docs/en/getting-started/install/
 2. Create a default user without a password.
-3. Activate a clickhouse server with: sudo systemctl start clickhouse-server
-4. Activate a clickhouse client with: clickhouse-client
-5. In your client, create a database: CREATE DATABASE eventlog;
-6. Make sure you are working with your database with: USE eventlog;
-7. Create a table: CREATE TABLE eventlog (
-                                 id UInt64,
-                                 message String,
-                                 timestamp DateTime)
-                            ENGINE = MergeTree() 
-                            PRIMARY KEY id 
-                            ORDER BY id;
-
-8. Then run an app with: hypercorn main:app --worker-class trio --reload
+3. Run command make make-database to activate server and create a database with a table
+4. Run command make make-runserver to run an application
 
 
 

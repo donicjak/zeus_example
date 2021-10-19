@@ -1,5 +1,7 @@
-import pandas as pd
+import json
+import time
 
+from typing import List, Dict, Any
 from clickhouse_driver import Client
 from datetime import datetime
 
@@ -9,21 +11,23 @@ def get_client() -> Client:
                               password="", host="localhost")
     return clickhouse_client
 
-def insert_data(message: str) -> None:
-    clickhouse_client = get_client()
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    clickhouse_client.execute(f"INSERT INTO eventlog VALUES( '{message}', '{now}')")
+def insert_data(message: str, ip_address : int) -> None:
+    clickhouse_client  = get_client()
+    now = int(time.time())
+    clickhouse_client.execute(f"INSERT INTO eventlog VALUES( '{message}', '{now}', '{ip_address}')")
 
-def get_data_frame() -> pd.DataFrame:
+
+def get_content() -> List:
     clickhouse_client = get_client()
     database_content = clickhouse_client.execute('SELECT * FROM eventlog')
-    data_frame = pd.DataFrame(database_content)
-    data_frame = data_frame.rename(columns={0: 'message', 1: 'timestamp'})
-    return data_frame
-
-
-def to_json() -> str:
+    return database_content
+    
+def to_dictionary_list() -> List[Dict[str, Any]]:
     clickhouse_client = get_client()
-    data_frame = get_data_frame()
-    json_data = data_frame.to_json(orient="records")
-    return json_data
+    database_content = get_content()
+    database_list = []
+    for item in database_content:
+        timestamp_item = int(time.mktime(item[1].timetuple()))
+        d_item = {"message" : item[0], "timestamp" : timestamp_item, "ip_address" : item[2]}
+        database_list.append(d_item)
+    return database_list
