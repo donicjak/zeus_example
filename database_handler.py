@@ -23,7 +23,6 @@ def get_content() -> List:
     return database_content
     
 def to_dictionary_list() -> List[Dict[str, Any]]:
-    clickhouse_client = get_client()
     database_content = get_content()
     database_list = []
     for item in database_content:

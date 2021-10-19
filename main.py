@@ -37,7 +37,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: int) -> None:
         await manager.broadcast(f"Client #{client_id} disconnected!")
 
 @app.get("/")
-async def get(request: Request):
+async def get(request: Request) -> templates.TemplateResponse:
     ip_address = request.client.host
     ip_address_int = int(ipaddress.IPv4Address(ip_address))
     client_id = random.getrandbits(32)
@@ -47,5 +47,4 @@ async def get(request: Request):
 @app.get("/json")
 async def getJSON() -> JSONResponse:
     return JSONResponse(content=dh.to_dictionary_list())
-
 
