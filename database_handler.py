@@ -9,10 +9,8 @@ from datetime import datetime
 
 def get_client() -> Client:
     database_name = os.getenv("database_name", "eventlog1")
-    user_name = os.getenv("user_name", "default2")
-    host_name = os.getenv("host_name", "localhost3")
-    zkouska = os.getenv("zkouska", "localhost00")
-    print(zkouska)
+    user_name = os.getenv("user_name", "default")
+    host_name = os.getenv("host_name", "localhost")
     clickhouse_client = Client(database=database_name, user=user_name,
                               password="", host=host_name)
     return clickhouse_client
