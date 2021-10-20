@@ -20,7 +20,6 @@ def insert_data(message: str, ip_address : int) -> None:
     now = int(time.time())
     clickhouse_client.execute(f"INSERT INTO eventlog VALUES( '{message}', '{now}', '{ip_address}')")
 
-
 def get_content() -> List:
     clickhouse_client = get_client()
     database_content = clickhouse_client.execute('SELECT * FROM eventlog')
