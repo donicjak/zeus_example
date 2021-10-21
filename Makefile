@@ -1,4 +1,4 @@
-target:  database runserver
+target:  database runserver 
 
 database:
 	sudo systemctl start clickhouse-server
