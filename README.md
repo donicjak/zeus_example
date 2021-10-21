@@ -1,4 +1,4 @@
-<h1>Zeus_example
+<h1>Zeus_example</h1>
 
 A simple example project to test out functionalites of FastAPI's WebSocket's. Main source used for this was an official documentation at https://fastapi.tiangolo.com/advanced/websockets/.
 
