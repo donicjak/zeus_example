@@ -8,11 +8,16 @@ The project also stores data into a database created with [clickhouse](https://c
 
 ## Usage
 
-1. Install a clickhouse client and server with the help of [documentation] (https://clickhouse.com/docs/en/getting-started/install/)
-2. Create a default user without a password.
-3. Set your enviromental variables for database connection. export database_name=VALUE; export user_name=VALUE; export host_name=VALUE
-4. Run command make database to activate server and create a database with a table
-5. Run command make runserver to run an application
+Install a clickhouse client and server with the help of [documentation](https://clickhouse.com/docs/en/getting-started/install/)
+
+Create a user account with a name and password of your choice.
+
+Set your enviromental variables for database connection. 
+```export database_name=VALUE``` for the name of your database
+```export user_name=VALUE``` for the user name you have chosen
+```export host_name=VALUE``` for the host name you've set.
+Run command ```make database``` to activate server and create a database with a table
+Run command ```make runserver``` to run an application
 
 ## Contributors
 
