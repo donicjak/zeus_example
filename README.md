@@ -18,6 +18,7 @@ Set your enviromental variables for database connection.
 ```export host_name=VALUE``` for the host name you've set.
 
 Run command ```make database``` to activate server and create a database with a table
+
 Run command ```make runserver``` to run an application
 
 ## Contributors
